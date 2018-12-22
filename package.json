@@ -10,7 +10,7 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "parcel index.html --open",
+    "start": "parcel src/index.html",
     "build": "parcel build index.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
