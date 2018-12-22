@@ -6,14 +6,11 @@
     "@emotion/core": "10.0.5",
     "@emotion/styled": "10.0.5",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-scripts": "2.1.1"
+    "react-dom": "^16.7.0"
   },
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build index.html",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "parcel src/index.js",
+    "build": "parcel build index.js"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",

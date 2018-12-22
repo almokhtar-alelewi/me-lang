@@ -24763,6 +24763,8 @@ require("./index.css");
 
 var _App = _interopRequireDefault(require("./App"));
 
+require("./index.html");
+
 var serviceWorker = _interopRequireWildcard(require("./serviceWorker"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -24775,7 +24777,7 @@ _reactDom.default.render(_react.default.createElement(_App.default, null), docum
 
 
 serviceWorker.unregister();
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./index.css":"index.css","./App":"App.js","./serviceWorker":"serviceWorker.js"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./index.css":"index.css","./App":"App.js","./index.html":"index.html","./serviceWorker":"serviceWorker.js"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -24802,7 +24804,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52375" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52729" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -24944,5 +24946,96 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-loader.js":[function(require,module,exports) {
+var getBundleURL = require('./bundle-url').getBundleURL;
+
+function loadBundlesLazy(bundles) {
+  if (!Array.isArray(bundles)) {
+    bundles = [bundles];
+  }
+
+  var id = bundles[bundles.length - 1];
+
+  try {
+    return Promise.resolve(require(id));
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return new LazyPromise(function (resolve, reject) {
+        loadBundles(bundles.slice(0, -1)).then(function () {
+          return require(id);
+        }).then(resolve, reject);
+      });
+    }
+
+    throw err;
+  }
+}
+
+function loadBundles(bundles) {
+  return Promise.all(bundles.map(loadBundle));
+}
+
+var bundleLoaders = {};
+
+function registerBundleLoader(type, loader) {
+  bundleLoaders[type] = loader;
+}
+
+module.exports = exports = loadBundlesLazy;
+exports.load = loadBundles;
+exports.register = registerBundleLoader;
+var bundles = {};
+
+function loadBundle(bundle) {
+  var id;
+
+  if (Array.isArray(bundle)) {
+    id = bundle[1];
+    bundle = bundle[0];
+  }
+
+  if (bundles[bundle]) {
+    return bundles[bundle];
+  }
+
+  var type = (bundle.substring(bundle.lastIndexOf('.') + 1, bundle.length) || bundle).toLowerCase();
+  var bundleLoader = bundleLoaders[type];
+
+  if (bundleLoader) {
+    return bundles[bundle] = bundleLoader(getBundleURL() + bundle).then(function (resolved) {
+      if (resolved) {
+        module.bundle.register(id, resolved);
+      }
+
+      return resolved;
+    }).catch(function (e) {
+      delete bundles[bundle];
+      throw e;
+    });
+  }
+}
+
+function LazyPromise(executor) {
+  this.executor = executor;
+  this.promise = null;
+}
+
+LazyPromise.prototype.then = function (onSuccess, onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.then(onSuccess, onError);
+};
+
+LazyPromise.prototype.catch = function (onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.catch(onError);
+};
+},{"./bundle-url":"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/loaders/browser/html-loader.js":[function(require,module,exports) {
+module.exports = function loadHTMLBundle(bundle) {
+  return fetch(bundle).then(function (res) {
+    return res.text();
+  });
+};
+},{}],0:[function(require,module,exports) {
+var b=require("../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-loader.js");b.register("html",require("../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/loaders/browser/html-loader.js"));b.load([["index.html","index.html"]]).then(function(){require("index.js");});
+},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js",0], null)
 //# sourceMappingURL=/src.e31bb0bc.map
